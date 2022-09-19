@@ -2,7 +2,7 @@ import React from 'react'
 import {useAuth} from '../../hooks/useAuth'
 import { Link } from 'react-router-dom';
 
-function Navbar() {
+function Navbar(props) {
 
     const { logout } = useAuth();
 
@@ -21,7 +21,11 @@ function Navbar() {
                 </nav>
                 <button
                     onClick={() => {
+                        props.setLoading(true);
+                        setTimeout(() => {
                         logout();
+                        props.setLoading(false);
+                        }, 500);
                       }}
                 className="inline-flex items-center bg-purple-700 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 text-white hover:text-black rounded text-base mt-4 md:mt-0">
                     Logout
