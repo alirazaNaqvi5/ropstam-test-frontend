@@ -1,12 +1,37 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import Loading from '../../components/Loading';
-import { useAuth } from '../../hooks/useAuth'
+import Loading from '../../../components/Loading';
+import { useAuth } from '../../../hooks/useAuth'
+import EditDelete from './EditDelete';
+import Modal from './Modal';
 
 function CarsList(props) {
 
+    const [modify, setModify] = useState({
+        modify: false,
+        id: null,
+        name: '',
+    });
+
+    const [showModal, setShowModal] = useState({
+        show: false,
+        delete: false,
+        _id: '',
+        category: '',
+        title: '',
+        color: '',
+        model: '',
+        make: '',
+        registration_no: '',
+        image: ''
+    });
+
+
+    // first loading true then false if page loads first time
     const [firstLoad, setFirstLoad] = useState(true);
-    const [loading, setLoading] = useState(firstLoad? false : true);
+
+    // cras loading animation state if page is loaded first time then false otherwise true
+    const [loading, setLoading] = useState(firstLoad ? false : true);
 
     const { user } = useAuth();
 
@@ -21,7 +46,6 @@ function CarsList(props) {
                 }
             })
                 .then(res => {
-                    console.log(res.data);
                     setCars(res.data)
                     setLoading(false);
                     setFirstLoad(false);
@@ -40,7 +64,6 @@ function CarsList(props) {
 
             })
                 .then(res => {
-                    console.log(res.data)
                     setCars(res.data)
                     setLoading(false);
                     setFirstLoad(false);
@@ -57,37 +80,67 @@ function CarsList(props) {
 
 
     useEffect(() => {
-        setLoading(firstLoad? false : true);
-        console.log(props.Category);
+        setLoading(firstLoad ? false : true);
         if (firstLoad) {
             getCars();
         }
         else {
-            setTimeout(()=>{
+            setTimeout(() => {
                 getCars();
-            }, 800);   
+            }, 800);
         }
 
 
     }, [props.Category])
 
+const [change, setChange] = useState(0);
+    useEffect(() => {
+        
+            getCars();
+       
+       
+
+
+    }, [change])
+
     return (
 
-        <div className='mt-10 flex flex-wrap items-center justify-center'>
-            {loading ? <Loading/> : (
+        <div className='mt-10 flex flex-wrap pl-10 '>
+            {loading ? <Loading /> : (
                 <>
+                    <Modal setShowModal={setShowModal} showModal={showModal} change={change} setChange={setChange} />
                     {/* create cards to show cars */}
                     {cars.map((car) => (
                         // show all details of car
-                        <div className=" flex flex-col justify-center items-center mx-5 my-4  ">
+                        <div className=" flex flex-col justify-center items-center mx-5 my-4" key={car._id}
+                            onMouseOver={() => {
+                                setModify({
+                                    modify: true,
+                                    id: car._id,
+                                    name: car.name
+                                })
+                            }}
+                            onMouseLeave={() => {
+                                setModify({
+                                    modify: false,
+                                    id: null,
+                                    name: ''
+                                })
+                            }}
+                        >
+
+                            {
+                                modify.modify && modify.id === car._id ? <EditDelete setChange={setChange} change={change} car={car} showModal={showModal} setShowModal={setShowModal} setModify={setModify} /> : null
+                            }
+
                             <div className="w-full bg-white shadow-md rounded-lg overflow-hidden">
                                 <div className="bg-cover bg-center h-56 p-4" style={{ backgroundImage: `url(${car.image})` }}>
                                     <div className="flex justify-end">
                                         <button className="text-gray-600 focus:outline-none focus:text-gray-500">
                                             <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
                                                 <path
-                                                    fill-rule="evenodd"
-                                                    clip-rule="evenodd"
+                                                    fillRule="evenodd"
+                                                    clipRule="evenodd"
                                                     d="M12 21a9 9 0 100-18 9 9 0 000 18zm0-2a7 7 0 110-14 7 7 0 010 14zm-1-9h2v5H11v-5zm0-3h2v2H11V7z"></path>
                                             </svg>
                                         </button>
@@ -105,8 +158,8 @@ function CarsList(props) {
                                     <div className="flex items-center mt-4 text-gray-700">
                                         <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
                                             <path
-                                                fill-rule="evenodd"
-                                                clip-rule="evenodd"
+                                                fillRule="evenodd"
+                                                clipRule="evenodd"
                                                 d="M12 21a9 9 0 100-18 9 9 0 000 18zm0-2a7 7 0 110-14 7 7 0 010 14zm-1-9h2v5H11v-5zm0-3h2v2H11V7z"></path>
                                         </svg>
                                         <h1 className="text-gray-700 font-bold text-xl ml-2">
@@ -117,8 +170,8 @@ function CarsList(props) {
                                     <div className="flex items-center mt-4 text-gray-700">
                                         <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
                                             <path
-                                                fill-rule="evenodd"
-                                                clip-rule="evenodd"
+                                                fillRule="evenodd"
+                                                clipRule="evenodd"
                                                 d="M12 21a9 9 0 100-18 9 9 0 000 18zm0-2a7 7 0 110-14 7 7 0 010 14zm-1-9h2v5H11v-5zm0-3h2v2H11V7z"></path>
                                         </svg>
                                         <h1 className="text-gray-700 font-bold text-xl ml-2">
@@ -129,8 +182,8 @@ function CarsList(props) {
                                     <div className="flex items-center mt-4 text-gray-700">
                                         <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
                                             <path
-                                                fill-rule="evenodd"
-                                                clip-rule="evenodd"
+                                                fillRule="evenodd"
+                                                clipRule="evenodd"
                                                 d="M12 21a9 9 0 100-18 9 9 0 000 18zm0-2a7 7 0 110-14 7 7 0 010 14zm-1-9h2v5H11v-5zm0-3h2v2H11V7z"></path>
                                         </svg>
                                         <h1 className="text-gray-700 font-bold text-xl ml-2">
@@ -141,8 +194,8 @@ function CarsList(props) {
                                     <div className="flex items-center mt-4 text-gray-700">
                                         <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
                                             <path
-                                                fill-rule="evenodd"
-                                                clip-rule="evenodd"
+                                                fillRule="evenodd"
+                                                clipRule="evenodd"
                                                 d="M12 21a9 9 0 100-18 9 9 0 000 18zm0-2a7 7 0 110-14 7 7 0 010 14zm-1-9h2v5H11v-5zm0-3h2v2H11V7z"></path>
                                         </svg>
                                         <h1 className="text-gray-700 font-bold text-xl ml-2">
@@ -158,7 +211,7 @@ function CarsList(props) {
                 </>
             )}
 
-    </div>
+        </div>
     )
 }
 

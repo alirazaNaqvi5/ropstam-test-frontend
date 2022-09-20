@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../../hooks/useAuth';
 import axios from 'axios';
 
 function CategoryList(props) {
@@ -84,8 +84,12 @@ function CategoryList(props) {
                     </select>
 
                     {/* edit option button */}
-                    <button className='w-[30%] px-4 py-2 ml-2 font-bold text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:shadow-outline'>
-                        Edit
+                    <button
+                        onClick={() => {
+                            props.setAddCategoryModal(true);
+                        }}
+                        className='w-[30%] px-4 py-2 ml-2 font-bold text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:shadow-outline'>
+                        Add or modify categories
                     </button>
 
 
