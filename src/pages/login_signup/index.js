@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { useAuth } from '../../hooks/useAuth';
 import { Navigate } from 'react-router-dom';
-import Login from './Login';
-import SignUp from './SignUp';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
 
 
 function LoginSignUp() {

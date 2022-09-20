@@ -7,6 +7,7 @@ function EditCategory() {
 
     // create a state to store the NEW name of the category
     const [category, setCategory] = React.useState({
+        previous_name: '',
         name: '',
         _id: ''
     })
@@ -51,6 +52,7 @@ function EditCategory() {
                 className='w-full px-4 py-2 text-gray-700 bg-white border rounded-lg appearance-none focus:outline-none focus:bg-white'
                 onChange={(e) => {
                     setCategory({
+                        previous_name: categories[e.target.value].name,
                         name: categories[e.target.value].name,
                         _id: categories[e.target.value]._id
                     })
@@ -97,6 +99,7 @@ function EditCategory() {
                         className='ml-2 px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600'
                         onClick={() => {
                             axios.put('http://localhost:5000/api/cat/update', {
+                                previous_name: category.previous_name,
                                 name: category.name,
                                 id: category._id
                             }, {
@@ -112,6 +115,7 @@ function EditCategory() {
                                         id: null,
                                         name: ''
                                     })
+                                    window.location.reload()
                                 })
                                 .catch(err => {
                                     console.log(err)

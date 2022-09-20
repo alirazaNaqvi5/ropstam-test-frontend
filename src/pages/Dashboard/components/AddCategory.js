@@ -22,6 +22,7 @@ function AddCategory() {
                 console.log(res.data);
                 alert(res.data.message);
                 setCategory('');
+                window.location.reload();
             })
             .catch(err => {
                 console.log(err);
