@@ -35,7 +35,7 @@ function EditCategory() {
             .catch(err => {
                 console.log(err)
             })
-    }, [])
+    }, [user])
 
 
 
@@ -108,7 +108,6 @@ function EditCategory() {
                                 }
                             })
                                 .then(res => {
-                                    console.log(res.data)
                                     alert(res.data.message)
                                     setEditMode({
                                         edit: false,
@@ -118,7 +117,7 @@ function EditCategory() {
                                     window.location.reload()
                                 })
                                 .catch(err => {
-                                    console.log(err)
+                                    alert(err.response.data.message)
                                 })
                         }}
                     >Update</button>

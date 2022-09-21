@@ -29,7 +29,7 @@ function DeleteCategory({setAddCategoryModal}) {
       .catch(err => {
         console.log(err)
       })
-  }, [])
+  }, [user])
 
 
 

@@ -4,21 +4,12 @@ import axios from 'axios';
 
 function CategoryList(props) {
     const { user } = useAuth();
-    const [editMode, setEditMode] = useState({
-        edit: false,
-        id: null,
-        name: ''
-    });
+
 
     const [category, setCategory] = useState([{
         name: '',
         id: ''
     }]);
-
-    const [selectedCategory, setSelectedCategory] = useState({
-        name: '',
-        id: ''
-    });
 
 
     useEffect(() => {
@@ -37,14 +28,11 @@ function CategoryList(props) {
                     }
                 })
                 setCategory(data);
-                // props.setCategory(data[0].name);
+                
             })
 
     }, []);
 
-    // useEffect(() => {
-    //     props.setCategory(selectedCategory.name);
-    // }, [selectedCategory]);
 
 
 
@@ -55,27 +43,26 @@ function CategoryList(props) {
                 <h1 className='text-2xl font-bold text-gray-900'>Categories</h1>
                 <p className='mt-2 text-sm text-gray-600'>Select Category to show relevant Vehicles</p>
 
-                {/* create selection menu  */}
+{/* =========================================================================================================== */}         
+                                         {/* create selection menu  */}
+{/* =========================================================================================================== */}
+
                 <div className='mt-4 mb-4 flex'>
-                    <select 
-                        
+                    <select
+
                         onChange={(e) => {
-                            if(e.target.value==='All'){
+                            if (e.target.value === 'All') {
                                 props.setCategory('All');
                             }
-                            else{
-                                setSelectedCategory({
-                                    id: category[e.target.value].id,
-                                    name: category[e.target.value].name
-                                })
+                            else {
                                 props.setCategory(category[e.target.value].name);
                             }
                         }}
                         className='w-full px-4 py-2 text-gray-700 bg-white border rounded-lg appearance-none focus:outline-none focus:shadow-outline'>
-                            <option key='All' value='All'>All</option>
+                        <option key='All' value='All'>All</option>
                         {
                             category.map((item, i) => {
-                                if(i===0){
+                                if (i === 0) {
                                     return <option key={item.id} value={i}>{item.name}</option>
                                 }
                                 return <option key={item.id} value={i}>{item.name}</option>
@@ -83,7 +70,10 @@ function CategoryList(props) {
                         }
                     </select>
 
-                    {/* edit option button */}
+
+{/* =========================================================================================================== */}
+                                {/* edit option button to lauch edit menu Modal */}
+{/* =========================================================================================================== */}
                     <button
                         onClick={() => {
                             props.setAddCategoryModal(true);
@@ -91,7 +81,9 @@ function CategoryList(props) {
                         className='w-[30%] px-4 py-2 ml-2 font-bold text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:shadow-outline'>
                         Add or modify categories
                     </button>
-
+{/* =========================================================================================================== */}         
+                                         
+{/* =========================================================================================================== */}
 
                 </div>
 

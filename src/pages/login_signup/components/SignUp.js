@@ -1,6 +1,5 @@
 import React from 'react';
 import Message from './message';
-import { useAuth } from '../../../hooks/useAuth';
 
 
 function SignUp({page, setPage, setLoginInfo, loginInfo}) {
@@ -33,20 +32,36 @@ function SignUp({page, setPage, setLoginInfo, loginInfo}) {
         fetch("http://localhost:5000/api/auth/signup", requestOptions)
             .then(response => {
                 if (response.status === 200) {
-                    return response.text();
+                    return response.json();
                 }
                 else {
                     alert('Something went wrong');
                 }
             })
             .then(result => {
-                console.log(result);
-                setMessage({
+                console.log( "result =====>", result);
+                if(result.email){
+                    setMessage({
                     show: true,
                     message: 'Please check your email to verify your account'
                 })
+                }
+                else if(result.message){
+                    setMessage({
+                        show: true,
+                        message: result.message
+                    })
+                }
             })
-            .catch(error => console.log('error', error));
+            .catch(error => {
+                console.log('error ===== >', error)
+                if(error.response.data.message){
+                    setMessage({
+                    show: true,
+                    message: error.response.data.message
+                })
+                }
+            });
     };
 
 
